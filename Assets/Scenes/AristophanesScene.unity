@@ -333,6 +333,7 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194229}
+  - component: {fileID: 963194230}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -420,6 +421,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attenuationObject: {fileID: 0}
+--- !u!114 &963194230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d4bc6782179374468bab3c35b13b70e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 7321982743601116225, guid: b7425d78329961d49acd2feebe43e03e, type: 3}
 --- !u!1 &1107135018
 GameObject:
   m_ObjectHideFlags: 0
@@ -577,7 +591,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -678,7 +692,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61764f851ca76a549ad7d1554ea04be3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 963194227}
+  playerCamera: {fileID: 963194227}
   walkSpeed: 500
   turnSpeed: 1
   invertY: 0

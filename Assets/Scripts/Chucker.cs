@@ -21,7 +21,7 @@ public class Chucker : MonoBehaviour
         {
             timer = 0.1f;
             Vector3 position = transform.position + transform.forward * 2;
-            Projectile.SpawnProjectile(prefab, position, transform.rotation, 20, Vector3.zero, 0.1f);
+            Projectile.SpawnProjectile(prefab, position, transform.rotation, 20, new Vector3(20, 0, 0), 0.1f);
         }
     }
 }
