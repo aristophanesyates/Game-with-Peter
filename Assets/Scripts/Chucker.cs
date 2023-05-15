@@ -6,11 +6,11 @@ public class Chucker : MonoBehaviour
 {
     [SerializeField]
     private GameObject prefab;
-    float timer = 1;
+    float timer;
     // Start is called before the first frame update
     void Start()
     {
-        timer = 1000;
+        timer = 0.1f;
     }
 
     // Update is called once per frame
@@ -19,8 +19,9 @@ public class Chucker : MonoBehaviour
         timer -= Time.deltaTime;
         if (timer <= 0)
         {
-            Projectile.SpawnProjectile(prefab, transform.position, transform.rotation, 10, Vector3.zero);
-            timer = 1;
+            timer = 0.1f;
+            Vector3 position = transform.position + transform.forward * 2;
+            Projectile.SpawnProjectile(prefab, position, transform.rotation, 20, Vector3.zero, 0.1f);
         }
     }
 }
