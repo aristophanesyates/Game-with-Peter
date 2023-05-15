@@ -14,7 +14,12 @@ namespace Knife.Interactions
 
         #endregion
 
-        #region Event Raised Method
+        #region Event Methods
+
+        public virtual void RaiseEvents()
+        {
+            Event.Raise();
+        }
 
         public virtual void OnEventRaised()
         {

@@ -30,22 +30,15 @@ public class TempController : MonoBehaviour
     private void Start()
     {
         pInputs.Runtime.TestAudio.performed += ctx => Notify();
-        pInputs.Runtime.Movement.performed += ctx => Movement(ctx.ReadValue<Vector2>());
     }
 
     #endregion
 
     #region Test Region
 
-    private void Notify()
+    public void Notify()
     {
-        Debug.Log("Test!");
         AudioManager.Instance.PlayOneShot(FMODEvents.Instance.testSound, this.transform.position);
-    }
-
-    private void Movement(Vector2 moveVector)
-    {
-        Debug.Log("Moving" + moveVector);
     }
 
     #endregion
