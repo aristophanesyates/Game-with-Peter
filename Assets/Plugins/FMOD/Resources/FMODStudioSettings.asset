@@ -281,10 +281,10 @@ MonoBehaviour:
   m_Name: FMODStudioSettings
   m_EditorClassIdentifier: 
   switchSettingsMigration: 1
-  HasSourceProject: 1
+  HasSourceProject: 0
   HasPlatforms: 1
   sourceProjectPath: ../FMod/A&P/A&P.fspro
-  sourceBankPath: ../FMod/A&P/Build
+  sourceBankPath: Assets/Plugins/FMODBuilds
   sourceBankPathUnformatted: 
   BankRefreshCooldown: 5
   ShowBankRefreshWindow: 1
