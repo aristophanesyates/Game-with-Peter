@@ -573,8 +573,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 963194227}
-  walkSpeed: 100
-  turnSpeed: 2
+  walkSpeed: 500
+  turnSpeed: 25
   invertY: 0
   rb: {fileID: 1779940728}
 --- !u!54 &1779940728
