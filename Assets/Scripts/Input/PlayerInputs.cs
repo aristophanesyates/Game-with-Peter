@@ -35,6 +35,15 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Movement"",
+                    ""type"": ""Value"",
+                    ""id"": ""b1ae2a44-28b1-4b7b-bbc1-fff77a6c8c81"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -48,6 +57,116 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""action"": ""TestAudio"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""c9335d44-21e8-45a4-b4aa-4ff0ae809857"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""e76c958d-fc7b-4dbc-a604-093bb0599286"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""6a67998a-7aae-4dab-90f8-008aac4e68f4"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""0939283d-53a7-4320-83a9-b129d129dcae"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""21811d03-dfa1-47a0-ab1a-7e81b0e9fb3f"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""0b879bf8-a9c0-4aae-917c-b9ff5789e76b"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""b6891545-35c3-4459-81e3-9ac69934374b"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""79cda6b6-45cf-49fa-804e-55377d0fac27"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""5222a300-4c25-4c92-b291-806c7f9960ec"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""7c3f0123-4ecb-42a6-bd8c-d51ee7bf0162"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -57,6 +176,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         // Runtime
         m_Runtime = asset.FindActionMap("Runtime", throwIfNotFound: true);
         m_Runtime_TestAudio = m_Runtime.FindAction("TestAudio", throwIfNotFound: true);
+        m_Runtime_Movement = m_Runtime.FindAction("Movement", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -119,11 +239,13 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Runtime;
     private List<IRuntimeActions> m_RuntimeActionsCallbackInterfaces = new List<IRuntimeActions>();
     private readonly InputAction m_Runtime_TestAudio;
+    private readonly InputAction m_Runtime_Movement;
     public struct RuntimeActions
     {
         private @PlayerInputs m_Wrapper;
         public RuntimeActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
         public InputAction @TestAudio => m_Wrapper.m_Runtime_TestAudio;
+        public InputAction @Movement => m_Wrapper.m_Runtime_Movement;
         public InputActionMap Get() { return m_Wrapper.m_Runtime; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -136,6 +258,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @TestAudio.started += instance.OnTestAudio;
             @TestAudio.performed += instance.OnTestAudio;
             @TestAudio.canceled += instance.OnTestAudio;
+            @Movement.started += instance.OnMovement;
+            @Movement.performed += instance.OnMovement;
+            @Movement.canceled += instance.OnMovement;
         }
 
         private void UnregisterCallbacks(IRuntimeActions instance)
@@ -143,6 +268,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @TestAudio.started -= instance.OnTestAudio;
             @TestAudio.performed -= instance.OnTestAudio;
             @TestAudio.canceled -= instance.OnTestAudio;
+            @Movement.started -= instance.OnMovement;
+            @Movement.performed -= instance.OnMovement;
+            @Movement.canceled -= instance.OnMovement;
         }
 
         public void RemoveCallbacks(IRuntimeActions instance)
@@ -163,5 +291,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     public interface IRuntimeActions
     {
         void OnTestAudio(InputAction.CallbackContext context);
+        void OnMovement(InputAction.CallbackContext context);
     }
 }
