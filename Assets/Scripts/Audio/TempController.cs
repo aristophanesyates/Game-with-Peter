@@ -6,7 +6,7 @@ using FMODUnity;
 public class TempController : MonoBehaviour
 {
     #region Variables
-    private PlayerInputs inputs;
+    private PlayerInputs pInputs;
 
     #endregion
 
@@ -14,23 +14,23 @@ public class TempController : MonoBehaviour
 
     private void Awake()
     {
-        inputs = new PlayerInputs();
+        pInputs = new PlayerInputs();
     }
 
     private void OnEnable()
     {
-        inputs.Runtime.Enable();
+        pInputs.Runtime.Enable();
     }
 
     private void OnDisable()
     {
-        inputs.Runtime.Disable();
+        pInputs.Runtime.Disable();
     }
 
     private void Start()
     {
-        inputs.Runtime.TestAudio.performed += ctx => Notify();
-        inputs.Runtime.Movement.performed += ctx => Movement(ctx.ReadValue<Vector2>());
+        pInputs.Runtime.TestAudio.performed += ctx => Notify();
+        pInputs.Runtime.Movement.performed += ctx => Movement(ctx.ReadValue<Vector2>());
     }
 
     #endregion

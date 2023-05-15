@@ -44,6 +44,15 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""42637644-304c-4c49-b43d-e0832b72bf9c"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -167,6 +176,17 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fe52ac8c-8a7a-4df2-8318-3ba75e146164"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -177,6 +197,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_Runtime = asset.FindActionMap("Runtime", throwIfNotFound: true);
         m_Runtime_TestAudio = m_Runtime.FindAction("TestAudio", throwIfNotFound: true);
         m_Runtime_Movement = m_Runtime.FindAction("Movement", throwIfNotFound: true);
+        m_Runtime_Look = m_Runtime.FindAction("Look", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -240,12 +261,14 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private List<IRuntimeActions> m_RuntimeActionsCallbackInterfaces = new List<IRuntimeActions>();
     private readonly InputAction m_Runtime_TestAudio;
     private readonly InputAction m_Runtime_Movement;
+    private readonly InputAction m_Runtime_Look;
     public struct RuntimeActions
     {
         private @PlayerInputs m_Wrapper;
         public RuntimeActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
         public InputAction @TestAudio => m_Wrapper.m_Runtime_TestAudio;
         public InputAction @Movement => m_Wrapper.m_Runtime_Movement;
+        public InputAction @Look => m_Wrapper.m_Runtime_Look;
         public InputActionMap Get() { return m_Wrapper.m_Runtime; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -261,6 +284,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Movement.started += instance.OnMovement;
             @Movement.performed += instance.OnMovement;
             @Movement.canceled += instance.OnMovement;
+            @Look.started += instance.OnLook;
+            @Look.performed += instance.OnLook;
+            @Look.canceled += instance.OnLook;
         }
 
         private void UnregisterCallbacks(IRuntimeActions instance)
@@ -271,6 +297,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Movement.started -= instance.OnMovement;
             @Movement.performed -= instance.OnMovement;
             @Movement.canceled -= instance.OnMovement;
+            @Look.started -= instance.OnLook;
+            @Look.performed -= instance.OnLook;
+            @Look.canceled -= instance.OnLook;
         }
 
         public void RemoveCallbacks(IRuntimeActions instance)
@@ -292,5 +321,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     {
         void OnTestAudio(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
     }
 }
