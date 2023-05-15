@@ -9,7 +9,9 @@ namespace Knife.Interactions
     {
         #region Variables
 
+        public InteractionRule Rule;
         public InteractionEvent Event;
+
         public UnityEvent Response;
 
         #endregion
@@ -31,12 +33,12 @@ namespace Knife.Interactions
         #region Un/Register Observer Methods
         private void OnEnable()
         {
-            Event.RegisterListener(this);
+            Rule.RegisterListener(this);
         }
 
         private void OnDisable()
         {
-            Event.UnregisterListener(this);
+            Rule.UnregisterListener(this);
         }
 
         #endregion
