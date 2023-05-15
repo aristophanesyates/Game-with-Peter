@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+    #region Variables
     [SerializeField]
     private Camera camera;
     [SerializeField]
@@ -17,10 +18,18 @@ public class PlayerMovement : MonoBehaviour
     private PlayerInputs pInput;
     [SerializeField]
     private Rigidbody rb;
-    // Start is called before the first frame update
+
+    [SerializeField]
+    [Range(0.001f, 0.1f)] float mouseInputInterpolationTime;
+    float mouseX, mouseY;
+    #endregion
+
+    #region Initialisation
+
     void Start()
     {
-        
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
     void Awake()
     {
@@ -34,20 +43,33 @@ public class PlayerMovement : MonoBehaviour
     {
         pInput.Runtime.Disable();
     }
-    // Update is called once per frame
+
+    #endregion
+
+    #region Fixed/Update
     void Update()
     {
         MouseLook();
-        Move();
     }
     void FixedUpdate()
     {
+        FixedMouseLook();
+        Move();
     }
+    #endregion
+
+    #region Custom Runtime Methods
+
+    #region Mouse Methods
+
     private void MouseLook()
     {
-        Vector2 mouseVec = pInput.Runtime.Look.ReadValue<Vector2>() * turnSpeed * Time.deltaTime;
-        float mouseX = mouseVec.x;
-        float mouseY = mouseVec.y;
+        Vector2 mouseVec = pInput.Runtime.Look.ReadValue<Vector2>();
+        mouseX = Mathf.Lerp(mouseX, mouseVec.x * turnSpeed, Time.deltaTime * (1f / mouseInputInterpolationTime));
+        mouseY = Mathf.Lerp(mouseY, mouseVec.y * turnSpeed, Time.deltaTime * (1f / mouseInputInterpolationTime));
+    }
+    private void FixedMouseLook()
+    {
         axisRotation.x = axisRotation.x + mouseX;
         axisRotation.y = Mathf.Clamp(axisRotation.y + mouseY, -90, 90);
 
@@ -61,14 +83,18 @@ public class PlayerMovement : MonoBehaviour
             camera.transform.localRotation = Quaternion.Euler(axisRotation.y, 0, 0);
         }
     }
+
+    #endregion
+
+    #region Movement Methods
+
     private void Move()
     {
-        Vector2 mov = pInput.Runtime.Movement.ReadValue<Vector2>() * walkSpeed;
-        if (mov.magnitude == 0)
-        {
-            return;
-        }
-        mov = mov + mov.normalized * Vector2.Dot(mov, new Vector2(rb.velocity.x, rb.velocity.y));
+        Vector2 mov = pInput.Runtime.Movement.ReadValue<Vector2>() * walkSpeed * Time.fixedDeltaTime;
         rb.velocity = transform.forward * mov.y + transform.right * mov.x;
     }
+
+    #endregion
+
+    #endregion
 }
