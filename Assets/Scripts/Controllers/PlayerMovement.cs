@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     #region Variables
     [SerializeField]
-    private Camera camera;
+    private Camera playerCamera;
     [SerializeField]
     private float walkSpeed = 1;
     [SerializeField]
@@ -76,11 +76,11 @@ public class PlayerMovement : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, axisRotation.x, 0);
         if (!invertY)
         {
-            camera.transform.localRotation = Quaternion.Euler(-axisRotation.y, 0, 0);
+            playerCamera.transform.localRotation = Quaternion.Euler(-axisRotation.y, 0, 0);
         }
         else
         {
-            camera.transform.localRotation = Quaternion.Euler(axisRotation.y, 0, 0);
+            playerCamera.transform.localRotation = Quaternion.Euler(axisRotation.y, 0, 0);
         }
     }
 
