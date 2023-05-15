@@ -38,10 +38,10 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         MouseLook();
+        Move();
     }
     void FixedUpdate()
     {
-        Move();
     }
     private void MouseLook()
     {
@@ -63,7 +63,12 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Move()
     {
-        Vector2 mov = pInput.Runtime.Movement.ReadValue<Vector2>() * walkSpeed;// * Time.fixedDeltaTime;
+        Vector2 mov = pInput.Runtime.Movement.ReadValue<Vector2>() * walkSpeed;
+        if (mov.magnitude == 0)
+        {
+            return;
+        }
+        mov = mov + mov.normalized * Vector2.Dot(mov, new Vector2(rb.velocity.x, rb.velocity.y));
         rb.velocity = transform.forward * mov.y + transform.right * mov.x;
     }
 }
