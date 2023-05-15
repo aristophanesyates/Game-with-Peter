@@ -283,8 +283,8 @@ MonoBehaviour:
   switchSettingsMigration: 1
   HasSourceProject: 1
   HasPlatforms: 1
-  sourceProjectPath: ../../../../FMODTEST/A&P/A&P.fspro
-  sourceBankPath: ../../../../FMODTEST/A&P/Build
+  sourceProjectPath: ../FMod/A&P/A&P.fspro
+  sourceBankPath: ../FMod/A&P/Build
   sourceBankPathUnformatted: 
   BankRefreshCooldown: 5
   ShowBankRefreshWindow: 1
