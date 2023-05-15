@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
 
     [SerializeField]
-    [Range(0.001f, 0.1f)] float mouseInputInterpolationTime;
+    [Min(0.01f)] float mouseInputInterpolationTime;
     float mouseX, mouseY;
     #endregion
 
@@ -91,6 +91,16 @@ public class PlayerMovement : MonoBehaviour
     private void Move()
     {
         Vector2 mov = pInput.Runtime.Movement.ReadValue<Vector2>() * walkSpeed * Time.fixedDeltaTime;
+        rb.velocity = transform.forward * mov.y + transform.right * mov.x;
+    }
+    private void oldMove()
+    {
+        Vector2 mov = pInput.Runtime.Movement.ReadValue<Vector2>() * walkSpeed;
+        if (mov.magnitude == 0)
+        {
+            return;
+        }
+        mov = mov + mov.normalized * Vector2.Dot(mov, new Vector2(rb.velocity.x, rb.velocity.y));
         rb.velocity = transform.forward * mov.y + transform.right * mov.x;
     }
 
