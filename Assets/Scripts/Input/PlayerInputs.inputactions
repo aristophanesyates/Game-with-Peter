@@ -1,0 +1,34 @@
+{
+    "name": "PlayerInputs",
+    "maps": [
+        {
+            "name": "Runtime",
+            "id": "870e509e-499f-4bd5-87f2-7dd51fb06be8",
+            "actions": [
+                {
+                    "name": "TestAudio",
+                    "type": "Button",
+                    "id": "4463e7c2-825c-47f2-9251-6cfc4b156810",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "19e50893-014f-437a-adac-994f397af092",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TestAudio",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
