@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -14,10 +15,12 @@ public class PlayerMovement : MonoBehaviour
     private bool invertY = true;
     private Vector3 axisRotation = new Vector2(0,0);
     private PlayerInputs pInput;
+    [SerializeField]
+    private Rigidbody rb;
     // Start is called before the first frame update
     void Start()
     {
-        //pInput.Runtime.Look.performed+= ctx => LookAround(ctx.r)
+        
     }
     void Awake()
     {
@@ -34,13 +37,22 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float mouseX = Input.GetAxisRaw("Mouse X") * turnSpeed * Time.deltaTime;
-        float mouseY = Input.GetAxisRaw("Mouse Y") * turnSpeed * Time.deltaTime;
+        MouseLook();
+    }
+    void FixedUpdate()
+    {
+        Move();
+    }
+    private void MouseLook()
+    {
+        Vector2 mouseVec = pInput.Runtime.Look.ReadValue<Vector2>() * turnSpeed * Time.deltaTime;
+        float mouseX = mouseVec.x;
+        float mouseY = mouseVec.y;
         axisRotation.x = axisRotation.x + mouseX;
         axisRotation.y = Mathf.Clamp(axisRotation.y + mouseY, -90, 90);
 
         transform.rotation = Quaternion.Euler(0, axisRotation.x, 0);
-        if (invertY)
+        if (!invertY)
         {
             camera.transform.localRotation = Quaternion.Euler(-axisRotation.y, 0, 0);
         }
@@ -48,7 +60,10 @@ public class PlayerMovement : MonoBehaviour
         {
             camera.transform.localRotation = Quaternion.Euler(axisRotation.y, 0, 0);
         }
-        Vector2 mov = pInput.Runtime.Movement.ReadValue<Vector2>() * walkSpeed * Time.deltaTime;
-        transform.position += transform.forward * mov.y + transform.right * mov.x;
+    }
+    private void Move()
+    {
+        Vector2 mov = pInput.Runtime.Movement.ReadValue<Vector2>() * walkSpeed;// * Time.fixedDeltaTime;
+        rb.velocity = transform.forward * mov.y + transform.right * mov.x;
     }
 }
