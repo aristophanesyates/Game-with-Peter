@@ -16,7 +16,6 @@ namespace Knife.Interactions
         public bool TriggerRuleOnce;
         private bool IsTriggered;
 
-        public InteractionEvent TriggeredBy;
         public InteractionEvent Triggers;
 
         public List<Criteria> criteria;

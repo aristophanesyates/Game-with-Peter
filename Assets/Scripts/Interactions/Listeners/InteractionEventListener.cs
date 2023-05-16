@@ -10,18 +10,12 @@ namespace Knife.Interactions
         #region Variables
 
         public InteractionRule Rule;
-        public InteractionEvent Event;
 
         public UnityEvent Response;
 
         #endregion
 
         #region Event Methods
-
-        public virtual void RaiseEvents()
-        {
-            Event.Raise();
-        }
 
         public virtual void OnEventRaised()
         {

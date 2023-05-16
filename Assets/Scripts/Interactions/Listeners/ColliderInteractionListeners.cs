@@ -11,6 +11,8 @@ namespace Knife.Interactions.Listeners
 
         private Collider m_Collider;
 
+        public InteractionEvent Event;
+
         #endregion
 
         #region Init
@@ -23,6 +25,10 @@ namespace Knife.Interactions.Listeners
         #endregion
 
         #region Event Methods
+        public virtual void RaiseEvents()
+        {
+            Event.Raise();
+        }
 
         private void OnTriggerEnter(Collider other)
         {
