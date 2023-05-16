@@ -28,15 +28,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             ""id"": ""870e509e-499f-4bd5-87f2-7dd51fb06be8"",
             ""actions"": [
                 {
-                    ""name"": ""TestAudio"",
-                    ""type"": ""Button"",
-                    ""id"": ""4463e7c2-825c-47f2-9251-6cfc4b156810"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Movement"",
                     ""type"": ""Value"",
                     ""id"": ""b1ae2a44-28b1-4b7b-bbc1-fff77a6c8c81"",
@@ -71,20 +62,18 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""5de99c08-e338-4ca7-b9f3-976b6d412019"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""19e50893-014f-437a-adac-994f397af092"",
-                    ""path"": ""<Keyboard>/q"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""TestAudio"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": ""2D Vector"",
                     ""id"": ""c9335d44-21e8-45a4-b4aa-4ff0ae809857"",
@@ -227,6 +216,28 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""action"": ""Reload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""426ddab6-e8a5-410e-a5b0-58ded106ba31"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6cf23eb8-0537-4ef3-9106-b1d10addb2a1"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -235,11 +246,11 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
 }");
         // Runtime
         m_Runtime = asset.FindActionMap("Runtime", throwIfNotFound: true);
-        m_Runtime_TestAudio = m_Runtime.FindAction("TestAudio", throwIfNotFound: true);
         m_Runtime_Movement = m_Runtime.FindAction("Movement", throwIfNotFound: true);
         m_Runtime_Look = m_Runtime.FindAction("Look", throwIfNotFound: true);
         m_Runtime_Fire = m_Runtime.FindAction("Fire", throwIfNotFound: true);
         m_Runtime_Reload = m_Runtime.FindAction("Reload", throwIfNotFound: true);
+        m_Runtime_Jump = m_Runtime.FindAction("Jump", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -301,20 +312,20 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     // Runtime
     private readonly InputActionMap m_Runtime;
     private List<IRuntimeActions> m_RuntimeActionsCallbackInterfaces = new List<IRuntimeActions>();
-    private readonly InputAction m_Runtime_TestAudio;
     private readonly InputAction m_Runtime_Movement;
     private readonly InputAction m_Runtime_Look;
     private readonly InputAction m_Runtime_Fire;
     private readonly InputAction m_Runtime_Reload;
+    private readonly InputAction m_Runtime_Jump;
     public struct RuntimeActions
     {
         private @PlayerInputs m_Wrapper;
         public RuntimeActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
-        public InputAction @TestAudio => m_Wrapper.m_Runtime_TestAudio;
         public InputAction @Movement => m_Wrapper.m_Runtime_Movement;
         public InputAction @Look => m_Wrapper.m_Runtime_Look;
         public InputAction @Fire => m_Wrapper.m_Runtime_Fire;
         public InputAction @Reload => m_Wrapper.m_Runtime_Reload;
+        public InputAction @Jump => m_Wrapper.m_Runtime_Jump;
         public InputActionMap Get() { return m_Wrapper.m_Runtime; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -324,9 +335,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_RuntimeActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_RuntimeActionsCallbackInterfaces.Add(instance);
-            @TestAudio.started += instance.OnTestAudio;
-            @TestAudio.performed += instance.OnTestAudio;
-            @TestAudio.canceled += instance.OnTestAudio;
             @Movement.started += instance.OnMovement;
             @Movement.performed += instance.OnMovement;
             @Movement.canceled += instance.OnMovement;
@@ -339,13 +347,13 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Reload.started += instance.OnReload;
             @Reload.performed += instance.OnReload;
             @Reload.canceled += instance.OnReload;
+            @Jump.started += instance.OnJump;
+            @Jump.performed += instance.OnJump;
+            @Jump.canceled += instance.OnJump;
         }
 
         private void UnregisterCallbacks(IRuntimeActions instance)
         {
-            @TestAudio.started -= instance.OnTestAudio;
-            @TestAudio.performed -= instance.OnTestAudio;
-            @TestAudio.canceled -= instance.OnTestAudio;
             @Movement.started -= instance.OnMovement;
             @Movement.performed -= instance.OnMovement;
             @Movement.canceled -= instance.OnMovement;
@@ -358,6 +366,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Reload.started -= instance.OnReload;
             @Reload.performed -= instance.OnReload;
             @Reload.canceled -= instance.OnReload;
+            @Jump.started -= instance.OnJump;
+            @Jump.performed -= instance.OnJump;
+            @Jump.canceled -= instance.OnJump;
         }
 
         public void RemoveCallbacks(IRuntimeActions instance)
@@ -377,10 +388,10 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     public RuntimeActions @Runtime => new RuntimeActions(this);
     public interface IRuntimeActions
     {
-        void OnTestAudio(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
 }
