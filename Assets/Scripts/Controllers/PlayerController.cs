@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour
     float mouseX, mouseY;
     [SerializeField]
     private InteractionEvent fireEvent;
+    [SerializeField]
+    private InteractionEvent reloadEvent;
     #endregion
 
     #region Initialisation
@@ -34,6 +36,7 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         pInput.Runtime.Fire.performed += ctx => Chuck();
+        pInput.Runtime.Reload.performed += ctx => Reload();
     }
     void Awake()
     {
@@ -110,11 +113,15 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-    #region Left Click Methods
+    #region Action Methods
 
     private void Chuck()
     {
         fireEvent.Raise();
+    }
+    private void Reload()
+    {
+        reloadEvent.Raise();
     }
 
     #endregion

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98469e6b747f1c143a572c30e79bd25a, type: 3}
+  m_Name: ReloadRule
+  m_EditorClassIdentifier: 
+  Key: 
+  Priority: 0
+  TriggerRuleOnce: 0
+  Triggers: {fileID: 0}
+  criteria: []
+  modifications:
+  - Fact: {fileID: 11400000, guid: 865318e88edb7624080966ed250267ed, type: 2}
+    Operator: 1
+    Value: 5

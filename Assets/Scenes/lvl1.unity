@@ -715,6 +715,7 @@ MonoBehaviour:
   rb: {fileID: 1779940728}
   mouseInputInterpolationTime: 0.01
   fireEvent: {fileID: 11400000, guid: 6392c580d53a4694c93ef769893c44c8, type: 2}
+  reloadEvent: {fileID: 11400000, guid: a4fd3f930f45b414983f7a200b5a7d36, type: 2}
 --- !u!54 &1779940728
 Rigidbody:
   m_ObjectHideFlags: 0
