@@ -28,10 +28,6 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Initialisation
-    private void Chuck()
-    {
-        fireEvent.Raise();
-    }
 
     void Start()
     {
@@ -110,6 +106,15 @@ public class PlayerController : MonoBehaviour
         }
         mov = mov + mov.normalized * Vector2.Dot(mov, new Vector2(rb.velocity.x, rb.velocity.y));
         rb.velocity = transform.forward * mov.y + transform.right * mov.x;
+    }
+
+    #endregion
+
+    #region Left Click Methods
+
+    private void Chuck()
+    {
+        fireEvent.Raise();
     }
 
     #endregion
