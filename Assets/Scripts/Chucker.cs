@@ -1,3 +1,4 @@
+using Knife.Interactions;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,15 +9,18 @@ public class Chucker : MonoBehaviour
     [SerializeField]
     private GameObject prefab;
     private PlayerInputs pInput;
+    [SerializeField]
+    private InteractionEvent fireEvent;
     // Start is called before the first frame update
     private void Chuck()
     {
-        if (ammo > 0)
-        {
-            Vector3 position = transform.position + transform.forward * 2;
-            Projectile.SpawnProjectile(prefab, position, transform.rotation, 20, new Vector3(20, 0, 0), 0.1f);
-            ammo--;
-        }
+        fireEvent.Raise();
+        //if (ammo > 0)
+        //{
+        //    Vector3 position = transform.position + transform.forward * 2;
+        //    Projectile.SpawnProjectile(prefab, position, transform.rotation, 20, new Vector3(20, 0, 0), 0.1f);
+        //    ammo--;
+        //}
     }
     void Start()
     {
