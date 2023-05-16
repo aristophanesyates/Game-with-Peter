@@ -25,6 +25,13 @@ public class Projectile : MonoBehaviour
     {
         GameObject other = collision.gameObject;
         Debug.Log(other.name + " was struck by a knife!");
+        Health healthObject = other.GetComponent<Health>();
+        if (healthObject)
+        {
+            Debug.Log("Calling " + other.name + "'s Struck() function. Base Damage: " + 2);
+            healthObject.Struck(2, gameObject);
+
+        }
     }
     // Start is called before the first frame update
     void Start()
