@@ -19,8 +19,8 @@ namespace Knife.Interactions
         public InteractionEvent TriggeredBy;
         public InteractionEvent Triggers;
 
-        [SerializeField] public List<Criteria> criteria;
-        [SerializeField] public List<Modifications> modifications;
+        public List<Criteria> criteria;
+        public List<Modifications> modifications;
 
         #endregion
 
