@@ -241,7 +241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2924c5b3e682ee48be49765af78d331, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 15
+  health: 6
 --- !u!1 &42368873
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,7 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2924c5b3e682ee48be49765af78d331, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 15
+  health: 6
 --- !u!65 &42368875
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -393,7 +393,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2924c5b3e682ee48be49765af78d331, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 15
+  health: 6
 --- !u!65 &418532343
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -586,6 +586,7 @@ GameObject:
   - component: {fileID: 963194227}
   - component: {fileID: 963194229}
   - component: {fileID: 963194230}
+  - component: {fileID: 963194231}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -702,6 +703,20 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   prefab: {fileID: 7321982743601116225, guid: b7425d78329961d49acd2feebe43e03e, type: 3}
+--- !u!114 &963194231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e437487013d0e344790dc7d84ac1ea18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  armLength: 5
+  knifeTake: {fileID: 11400000, guid: 75b195a9fb004ca4ea469eb81afa4e82, type: 2}
 --- !u!1 &1107135018
 GameObject:
   m_ObjectHideFlags: 0
@@ -945,7 +960,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2924c5b3e682ee48be49765af78d331, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 15
+  health: 6
 --- !u!65 &1777956291
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1081,15 +1096,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 1779940728}
   walkSpeed: 500
-  JumpHeight: 0
-  LegLength: 0
+  JumpHeight: 6.86
+  MaxAirJumps: 10
+  IsCartoonJump: 0
+  maxGroundAngle: 25
+  MaxSnapSpeed: 100
+  probeDistance: 1
+  probeMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
   playerCamera: {fileID: 963194227}
   interpolationTime: 0
   turnSpeed: 1
   invertY: 0
   fireEvent: {fileID: 11400000, guid: 6392c580d53a4694c93ef769893c44c8, type: 2}
   reloadEvent: {fileID: 11400000, guid: a4fd3f930f45b414983f7a200b5a7d36, type: 2}
-  jumpEvent: {fileID: 0}
+  jumpEvent: {fileID: 11400000, guid: 29b0a9bc3ea09df41b3de08935202dd3, type: 2}
 --- !u!54 &1779940728
 Rigidbody:
   m_ObjectHideFlags: 0
