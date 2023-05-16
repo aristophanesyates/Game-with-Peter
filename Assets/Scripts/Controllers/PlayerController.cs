@@ -7,26 +7,29 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     #region Variables
-    [SerializeField]
-    private Camera playerCamera;
-    [SerializeField]
-    private float walkSpeed = 1;
-    [SerializeField]
-    private float turnSpeed = 1;
-    [SerializeField]
-    private bool invertY = true;
-    private Vector3 axisRotation = new Vector2(0,0);
     private PlayerInputs pInput;
-    [SerializeField]
-    private Rigidbody rb;
 
-    [SerializeField]
-    [Min(0.01f)] float mouseInputInterpolationTime;
+    [Header("Movement Variables")]
+    private Vector3 axisRotation = new Vector2(0,0);
+    [SerializeField] private Rigidbody rb;
+    [SerializeField] private float walkSpeed = 1;
+    [SerializeField] [Range(1, 10)] private float JumpHeight;
+    [SerializeField, Range(0.15f, 5)] private float LegLength;
+    private Collider playerCollider;
+    private float distToGround;
+
+
+    [Header("Camera Variables")]
+    [SerializeField] private Camera playerCamera;
+    [SerializeField] [Min(0.01f)] private float interpolationTime;
+    [SerializeField] private float turnSpeed = 1;
+    [SerializeField] private bool invertY = true;
     float mouseX, mouseY;
-    [SerializeField]
-    private InteractionEvent fireEvent;
-    [SerializeField]
-    private InteractionEvent reloadEvent;
+
+    [Header("Interaction Events")]
+    [SerializeField] private InteractionEvent fireEvent;
+    [SerializeField] private InteractionEvent reloadEvent;
+    [SerializeField] private InteractionEvent jumpEvent;
     #endregion
 
     #region Initialisation
@@ -35,12 +38,17 @@ public class PlayerController : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
         pInput.Runtime.Fire.performed += ctx => Chuck();
         pInput.Runtime.Reload.performed += ctx => Reload();
+        pInput.Runtime.Jump.performed += ctx => Jump();
     }
     void Awake()
     {
         pInput = new PlayerInputs();
+
+        playerCollider = GetComponentInChildren<Collider>();
+        distToGround = playerCollider.bounds.extents.y;
     }
     void OnEnable()
     {
@@ -72,8 +80,8 @@ public class PlayerController : MonoBehaviour
     private void MouseLook()
     {
         Vector2 mouseVec = pInput.Runtime.Look.ReadValue<Vector2>();
-        mouseX = Mathf.Lerp(mouseX, mouseVec.x * turnSpeed, Time.deltaTime * (1f / mouseInputInterpolationTime));
-        mouseY = Mathf.Lerp(mouseY, mouseVec.y * turnSpeed, Time.deltaTime * (1f / mouseInputInterpolationTime));
+        mouseX = Mathf.Lerp(mouseX, mouseVec.x * turnSpeed, Time.deltaTime * (1f / interpolationTime));
+        mouseY = Mathf.Lerp(mouseY, mouseVec.y * turnSpeed, Time.deltaTime * (1f / interpolationTime));
     }
     private void FixedMouseLook()
     {
@@ -98,17 +106,27 @@ public class PlayerController : MonoBehaviour
     private void Move()
     {
         Vector2 mov = pInput.Runtime.Movement.ReadValue<Vector2>() * walkSpeed * Time.fixedDeltaTime;
-        rb.velocity = transform.forward * mov.y + transform.right * mov.x;
+        var v = transform.forward * mov.y + transform.right * mov.x;
+        rb.velocity = new Vector3(v.x, rb.velocity.y, v.z);
     }
-    private void oldMove()
+
+    private bool GroundedCheck()
     {
-        Vector2 mov = pInput.Runtime.Movement.ReadValue<Vector2>() * walkSpeed;
-        if (mov.magnitude == 0)
+        return Physics.Raycast(transform.position + (transform.up * 0.05f), -Vector3.up, distToGround + LegLength);
+    }
+
+    private void Jump()
+    {
+        // If the player is in the air, do nothing;
+        if (!GroundedCheck())
         {
             return;
         }
-        mov = mov + mov.normalized * Vector2.Dot(mov, new Vector2(rb.velocity.x, rb.velocity.y));
-        rb.velocity = transform.forward * mov.y + transform.right * mov.x;
+        else
+        {
+            rb.velocity = transform.up * JumpHeight;
+            jumpEvent.Raise();
+        }
     }
 
     #endregion

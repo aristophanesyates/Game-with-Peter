@@ -18,6 +18,10 @@ namespace Knife.Interactions
         public void Raise()
         {
             InteractionRule ruleToTrigger = null;
+            if (rules.Count == 0)
+            {
+                return;
+            }
             foreach (InteractionRule rule in rules)
             {
                 if (rule.ValidateCriteria())
