@@ -21,6 +21,11 @@ public class Projectile : MonoBehaviour
         projScript.rb.AddForce(proj.transform.forward * speed, ForceMode.VelocityChange);
         projScript.rb.AddRelativeTorque(localSpin, ForceMode.VelocityChange);
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        GameObject other = collision.gameObject;
+        Debug.Log(other.name + " was struck by a knife!");
+    }
     // Start is called before the first frame update
     void Start()
     {
