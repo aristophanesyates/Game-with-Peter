@@ -246,6 +246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3a9a0c39e8e4fd47b5eb1d1119c56e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Rule: {fileID: 0}
   Event: {fileID: 11400000, guid: 3f566a0fe21d4694e93b44cd7d471845, type: 2}
   Response:
     m_PersistentCalls:
