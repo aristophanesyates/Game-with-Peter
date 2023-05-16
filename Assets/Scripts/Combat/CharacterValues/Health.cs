@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.Utilities;
 
 public class Health : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class Health : MonoBehaviour
     [SerializeField]
     private int health = 3;
     private GameObject lastStruckBy;
+    private void Update()
+    {
+    }
     public void Struck(int dmg, GameObject source)
     {
         if (lastStruckBy == source)
@@ -15,25 +19,35 @@ public class Health : MonoBehaviour
             return;
         }
         health -= dmg;
+        lastStruckBy = source;
         if (health < 0)
         {
             Die();
         }
         Debug.Log($"{gameObject.name}: Ow! Now I only have {health} health!");
-        lastStruckBy = source;
     }
     public void Die()
     {
+        StartCoroutine(AwaitDeath());
+        Debug.Log(gameObject.name + ": Blech!");
+    }
+    IEnumerator AwaitDeath()
+    {
+        yield return new WaitForSeconds(0.1f);
+        List<Transform> children = new List<Transform>();
         for (int i = 0; i < transform.childCount; i++)
         {
-            Transform t = transform.GetChild(i);
-            if (t.GetComponent<Projectile>())
+            children.Add(transform.GetChild(i));
+        }
+        for (int i = 0; i < children.Count; i++)
+        {
+            if (children[i].GetComponent<Projectile>())
             {
-                t.SetParent(null);
-                t.GetComponent<Rigidbody>().isKinematic = false;
+                children[i].SetParent(null);
+                children[i].GetComponent<Rigidbody>().isKinematic = false;
             }
         }
-        Debug.Log(gameObject.name + ": Blech!");
+        yield return new WaitForSeconds(0.1f);
         Destroy(gameObject);
     }
 }

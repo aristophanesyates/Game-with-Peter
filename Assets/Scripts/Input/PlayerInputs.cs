@@ -71,6 +71,15 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Take"",
+                    ""type"": ""Button"",
+                    ""id"": ""ce7eb84d-323e-4489-8122-3f2e9930dd9d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -238,6 +247,17 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8fa4f01f-bae5-4c4f-a9a8-17286bc79fa7"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Take"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -251,6 +271,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_Runtime_Fire = m_Runtime.FindAction("Fire", throwIfNotFound: true);
         m_Runtime_Reload = m_Runtime.FindAction("Reload", throwIfNotFound: true);
         m_Runtime_Jump = m_Runtime.FindAction("Jump", throwIfNotFound: true);
+        m_Runtime_Take = m_Runtime.FindAction("Take", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -317,6 +338,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Runtime_Fire;
     private readonly InputAction m_Runtime_Reload;
     private readonly InputAction m_Runtime_Jump;
+    private readonly InputAction m_Runtime_Take;
     public struct RuntimeActions
     {
         private @PlayerInputs m_Wrapper;
@@ -326,6 +348,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         public InputAction @Fire => m_Wrapper.m_Runtime_Fire;
         public InputAction @Reload => m_Wrapper.m_Runtime_Reload;
         public InputAction @Jump => m_Wrapper.m_Runtime_Jump;
+        public InputAction @Take => m_Wrapper.m_Runtime_Take;
         public InputActionMap Get() { return m_Wrapper.m_Runtime; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -350,6 +373,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @Take.started += instance.OnTake;
+            @Take.performed += instance.OnTake;
+            @Take.canceled += instance.OnTake;
         }
 
         private void UnregisterCallbacks(IRuntimeActions instance)
@@ -369,6 +395,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @Take.started -= instance.OnTake;
+            @Take.performed -= instance.OnTake;
+            @Take.canceled -= instance.OnTake;
         }
 
         public void RemoveCallbacks(IRuntimeActions instance)
@@ -393,5 +422,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         void OnFire(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnTake(InputAction.CallbackContext context);
     }
 }
