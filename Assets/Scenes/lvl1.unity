@@ -334,7 +334,6 @@ GameObject:
   - component: {fileID: 963194227}
   - component: {fileID: 963194229}
   - component: {fileID: 963194230}
-  - component: {fileID: 963194231}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -431,20 +430,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d4bc6782179374468bab3c35b13b70e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 7321982743601116225, guid: b7425d78329961d49acd2feebe43e03e, type: 3}
-  fireEvent: {fileID: 11400000, guid: 6392c580d53a4694c93ef769893c44c8, type: 2}
---- !u!114 &963194231
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5be6e4c3c37e09e47933196541b8bd8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
@@ -452,7 +437,7 @@ MonoBehaviour:
   Response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 963194231}
+      - m_Target: {fileID: 963194230}
         m_TargetAssemblyTypeName: KnifeThrow, Assembly-CSharp
         m_MethodName: ThrowKnife
         m_Mode: 1
@@ -729,6 +714,7 @@ MonoBehaviour:
   invertY: 0
   rb: {fileID: 1779940728}
   mouseInputInterpolationTime: 0.01
+  fireEvent: {fileID: 11400000, guid: 6392c580d53a4694c93ef769893c44c8, type: 2}
 --- !u!54 &1779940728
 Rigidbody:
   m_ObjectHideFlags: 0

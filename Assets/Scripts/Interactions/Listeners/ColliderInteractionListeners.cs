@@ -32,7 +32,7 @@ namespace Knife.Interactions.Listeners
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.GetComponentInParent<PlayerMovement>())
+            if (other.gameObject.GetComponentInParent<PlayerController>())
             {
                 RaiseEvents();
             }

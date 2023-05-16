@@ -3,24 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-public class Chucker : MonoBehaviour
+public class Chucker : InteractionEventListener
 {
-    static int ammo = 5; // consider replacing this with a scriptable object?
+    private PlayerInputs pInput;
     [SerializeField]
     private GameObject prefab;
-    private PlayerInputs pInput;
     [SerializeField]
     private InteractionEvent fireEvent;
     // Start is called before the first frame update
     private void Chuck()
     {
         fireEvent.Raise();
-        //if (ammo > 0)
-        //{
-        //    Vector3 position = transform.position + transform.forward * 2;
-        //    Projectile.SpawnProjectile(prefab, position, transform.rotation, 20, new Vector3(20, 0, 0), 0.1f);
-        //    ammo--;
-        //}
+    }
+    public void ThrowKnife()
+    {
+        Vector3 position = transform.position + transform.forward * 2;
+        Projectile.SpawnProjectile(prefab, position, transform.rotation, 20, new Vector3(20, 0, 0), 0.1f);
     }
     void Start()
     {
@@ -37,10 +35,5 @@ public class Chucker : MonoBehaviour
     void OnDisable()
     {
         pInput.Runtime.Disable();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
     }
 }

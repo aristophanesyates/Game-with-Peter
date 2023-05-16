@@ -1,9 +1,10 @@
+using Knife.Interactions;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     #region Variables
     [SerializeField]
@@ -22,14 +23,21 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     [Min(0.01f)] float mouseInputInterpolationTime;
     float mouseX, mouseY;
+    [SerializeField]
+    private InteractionEvent fireEvent;
     #endregion
 
     #region Initialisation
+    private void Chuck()
+    {
+        fireEvent.Raise();
+    }
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        pInput.Runtime.Fire.performed += ctx => Chuck();
     }
     void Awake()
     {
