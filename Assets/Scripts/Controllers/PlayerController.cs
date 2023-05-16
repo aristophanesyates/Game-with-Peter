@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float walkSpeed = 1;
     [SerializeField] [Range(1, 10)] private float JumpHeight;
     [SerializeField, Range(0, 10)] private int MaxAirJumps;
+    [SerializeField] private bool IsCartoonJump;
     private Collider playerCollider;
     private float distToGround;
     private int jumpPhase;
@@ -159,6 +160,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrounded || jumpPhase < MaxAirJumps)
         {
+            if (IsCartoonJump) { rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z); }
             stepsSinceLastJump = 0;
             jumpPhase += 1;
             // Contact vector check for air jumps

@@ -439,7 +439,7 @@ GameObject:
   - component: {fileID: 963194227}
   - component: {fileID: 963194229}
   - component: {fileID: 963194230}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -673,7 +673,7 @@ GameObject:
   - component: {fileID: 1443186589}
   - component: {fileID: 1443186588}
   - component: {fileID: 1443186587}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -816,7 +816,7 @@ MonoBehaviour:
   rb: {fileID: 1779940728}
   walkSpeed: 500
   JumpHeight: 7
-  MaxAirJumps: 1
+  MaxAirJumps: 3
   maxGroundAngle: 60
   MaxSnapSpeed: 100
   probeDistance: 1
@@ -869,7 +869,7 @@ GameObject:
   - component: {fileID: 1805482020}
   - component: {fileID: 1805482019}
   - component: {fileID: 1805482018}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
