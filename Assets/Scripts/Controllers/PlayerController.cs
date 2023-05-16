@@ -1,6 +1,7 @@
 using Knife.Interactions;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,10 +15,21 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody rb;
     [SerializeField] private float walkSpeed = 1;
     [SerializeField] [Range(1, 10)] private float JumpHeight;
-    [SerializeField, Range(0.15f, 5)] private float LegLength;
+    [SerializeField, Range(0, 10)] private int MaxAirJumps;
     private Collider playerCollider;
     private float distToGround;
+    private int jumpPhase;
 
+    [Header("Player Slope & Step Variables")]
+    [SerializeField, Range(0f, 90f)] private float maxGroundAngle = 25f;
+    [SerializeField, Range(0f, 100f)] private float MaxSnapSpeed = 100f;
+    [SerializeField, Range(0f, 2f)] private float probeDistance = 1f;
+    [SerializeField] LayerMask probeMask = -1;
+    private int groundContactCount;
+    private bool isGrounded => groundContactCount > 0;
+    private float minGroundDotProduct;
+    private int stepsSinceLastGrounded, stepsSinceLastJump;
+    private Vector3 contactNormal;
 
     [Header("Camera Variables")]
     [SerializeField] private Camera playerCamera;
@@ -49,6 +61,8 @@ public class PlayerController : MonoBehaviour
 
         playerCollider = GetComponentInChildren<Collider>();
         distToGround = playerCollider.bounds.extents.y;
+
+        minGroundDotProduct = Mathf.Cos(maxGroundAngle * Mathf.Deg2Rad);
     }
     void OnEnable()
     {
@@ -68,8 +82,10 @@ public class PlayerController : MonoBehaviour
     }
     void FixedUpdate()
     {
+        UpdateState();
         FixedMouseLook();
         Move();
+        ClearState();
     }
     #endregion
 
@@ -106,25 +122,51 @@ public class PlayerController : MonoBehaviour
     private void Move()
     {
         Vector2 mov = pInput.Runtime.Movement.ReadValue<Vector2>() * walkSpeed * Time.fixedDeltaTime;
-        var v = transform.forward * mov.y + transform.right * mov.x;
-        rb.velocity = new Vector3(v.x, rb.velocity.y, v.z);
+        Vector3 v = transform.forward * mov.y + transform.right * mov.x;
+        rb.velocity = new Vector3(v.x, rb.velocity.y, v.z);   
     }
 
-    private bool GroundedCheck()
+    private bool SnapToGround()
     {
-        return Physics.Raycast(transform.position + (transform.up * 0.05f), -Vector3.up, distToGround + LegLength);
+        if (stepsSinceLastGrounded > 1 || stepsSinceLastJump <= 6)
+        {
+            return false;
+        }
+        float speed = rb.velocity.magnitude;
+        if(speed > MaxSnapSpeed)
+        {
+            return false;
+        }
+        if (!Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, probeDistance, probeMask))
+        {
+            return false;
+        }
+        if (hit.normal.y < minGroundDotProduct)
+        {
+            return false;
+        }
+        groundContactCount = 1;
+        contactNormal = hit.normal;
+        float dot = Vector3.Dot(rb.velocity, hit.normal);
+        if (dot > 0f)
+        {
+            rb.velocity = (rb.velocity - hit.normal * dot).normalized * speed;
+        }
+        return true;
     }
 
     private void Jump()
     {
-        // If the player is in the air, do nothing;
-        if (!GroundedCheck())
+        if (isGrounded || jumpPhase < MaxAirJumps)
         {
-            return;
-        }
-        else
-        {
-            rb.velocity = transform.up * JumpHeight;
+            stepsSinceLastJump = 0;
+            jumpPhase += 1;
+            // Contact vector check for air jumps
+            if (contactNormal == Vector3.zero)
+            {
+                contactNormal = Vector3.up;
+            }
+            rb.velocity += contactNormal * JumpHeight;
             jumpEvent.Raise();
         }
     }
@@ -140,6 +182,61 @@ public class PlayerController : MonoBehaviour
     private void Reload()
     {
         reloadEvent.Raise();
+    }
+
+    #endregion
+
+    #region Collision Methods
+    private void OnCollisionEnter(Collision collision)
+    {
+        EvaluateCollision(collision);
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        EvaluateCollision(collision);
+    }
+
+    private void EvaluateCollision(Collision collision)
+    {
+        for (int i = 0; i < collision.contactCount; i++)
+        {
+            Vector3 normal = collision.GetContact(i).normal;
+            if (normal.y >= minGroundDotProduct)
+            {
+                groundContactCount++;
+                contactNormal += normal;
+            }
+        }
+    }
+
+    #endregion
+
+    #region Misc Methods
+
+    private void UpdateState()
+    {
+        stepsSinceLastGrounded++;
+        stepsSinceLastJump++;
+        if (isGrounded || SnapToGround())
+        {
+            stepsSinceLastGrounded = 0;
+            jumpPhase = 0;
+            if(groundContactCount > 1)
+            {
+                contactNormal.Normalize();
+            }
+        }
+        else
+        {
+            contactNormal = Vector3.up;
+        }
+    }
+
+    private void ClearState()
+    {
+        groundContactCount = 0;
+        contactNormal = Vector3.zero;
     }
 
     #endregion
