@@ -46,7 +46,7 @@ public class Projectile : MonoBehaviour
         gameObject.transform.rotation = Quaternion.LookRotation(strikeVector.normalized, transform.up);
         gameObject.transform.SetParent(other.transform);
         rb.isKinematic = true;
-        Health healthObject = other.GetComponent<Health>();
+        Health healthObject = other.GetComponentInParent<Health>(); // recursively checks game object and parents for Health Script. If we don't do this.
         if (healthObject)
         {
             Debug.Log("Calling " + other.name + "'s Struck() function. Base Damage: " + 2);

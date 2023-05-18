@@ -20,7 +20,7 @@ public class Health : MonoBehaviour
         }
         health -= dmg;
         lastStruckBy = source;
-        if (health < 0)
+        if (health <= 0)
         {
             Die();
         }
