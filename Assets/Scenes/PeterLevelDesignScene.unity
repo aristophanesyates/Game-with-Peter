@@ -817,6 +817,7 @@ MonoBehaviour:
   walkSpeed: 500
   JumpHeight: 7
   MaxAirJumps: 3
+  IsCartoonJump: 0
   maxGroundAngle: 60
   MaxSnapSpeed: 100
   probeDistance: 1
