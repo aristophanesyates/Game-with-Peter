@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     [Header("Movement Variables")]
     [SerializeField] private Rigidbody rb;
     [SerializeField] private float walkSpeed = 1;
-    [SerializeField] [Range(1, 10)] private float JumpHeight;
+    [SerializeField] [Range(1f, 10f)] private float JumpHeight;
     [SerializeField, Range(0, 10)] private int MaxAirJumps;
     [SerializeField, Range(0f, 2f)] private float probeDistance = 1f;
     [SerializeField] LayerMask probeMask = -1, stairsMask = -1;
@@ -84,7 +84,6 @@ public class PlayerController : MonoBehaviour
         UpdateState();
         FixedMouseLook();
         Move();
-        Debug.Log(CheckSteepContacts());
         ClearState();
     }
     #endregion
