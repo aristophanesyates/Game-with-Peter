@@ -43,16 +43,17 @@ public class Projectile : MonoBehaviour
         }
         Vector3 strikeVector = lastVelocity;
         Debug.Log(other.name + " was struck by a knife!");
-        gameObject.transform.rotation = Quaternion.LookRotation(strikeVector.normalized, transform.up);
-        gameObject.transform.SetParent(other.transform);
-        rb.isKinematic = true;
         Health healthObject = other.GetComponentInParent<Health>(); // recursively checks game object and parents for Health Script. If we don't do this.
         if (healthObject)
         {
+            other = healthObject.gameObject;
             Debug.Log("Calling " + other.name + "'s Struck() function. Base Damage: " + 2);
             healthObject.Struck(2, gameObject);
         }
         nullified = true;
+        gameObject.transform.rotation = Quaternion.LookRotation(strikeVector.normalized, transform.up);
+        gameObject.transform.SetParent(other.transform);
+        rb.isKinematic = true;
     }
 
     // Update is called once per frame
